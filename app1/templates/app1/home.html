@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rp2 Movies - Home</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.1.6/swiper-bundle.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #fff;
+        }
+        .container {
+            width: 90%;
+            margin: 0 auto;
+        }
+        /* Header Styles */
+        .header {
+            background-color: #1f1f1f;
+            padding: 1rem 0;
+        }
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e50914;
+        }
+        .header .nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+        }
+        .header .nav a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .header .search-bar input {
+            padding: 0.5rem;
+            background-color: #333;
+            border: none;
+            color: #fff;
+        }
+        /* Slider Styles */
+        .hcontainer {
+            height: 80vh; /* Adjust the height as needed */
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .swiper-slide {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: contain; /* Set background size to contain */
+            background-position: center;
+            background-repeat: no-repeat; 
+            position: relative;
+        }
+        .swiper-slide:hover::before {
+            content: '';
+            position: absolute;
+            width: 40%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            left: 0;
+            top: 0;
+            z-index: 1;
+        }
+        .swiper-slide .photo {
+            width: 100%; /* Set width to 100% initially */
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            z-index: 2;
+            transition: width 0.3s ease; /* Add transition for smooth effect */
+        }
+        .swiper-slide:hover .photo {
+            width: 40%; /* Reduce width on hover */
+        }
+        .swiper-slide .content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40%; /* Set width to 60% to match white block width */
+            height: 100%;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            overflow: hidden; /* Hide overflow content */
+            transition: opacity 0.3s ease; /* Add transition for smooth effect */
+            opacity: 0; /* Hide content initially */
+            z-index: 3;
+        }
+        .swiper-slide:hover .content {
+            opacity: 1; /* Show content on hover */
+        }
+        .swiper-slide .content h2,
+        .swiper-slide .content p {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            padding: 1rem;
+            color: #fff;
+        }
+        .swiper-slide .content h2{
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        .swiper-slide .content p {
+            font-size: 1.3rem;
+            text-align: justify;
+        }
+        /* Media Query for Mobile */
+@media screen and (max-width: 768px) {
+    .header .nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 4rem;
+        left: 0;
+        right: 0;
+        background-color: #1f1f1f;
+        padding: 1rem;
+    }
+    
+    .header .nav ul.open {
+        display: flex;
+    }
+    
+    .header .nav ul li {
+        margin-bottom: 1rem;
+    }
+    
+    .header .nav-toggle {
+        display: block;
+        color: #ffffffb4;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+    .swiper-slide .content h2{
+        font-size: 1rem;
+        font-weight: bold;
+    }
+    .swiper-slide .content p {
+        font-size: 0.6rem;
+        text-align: justify;
+    }
+}
+
+/* Media Query to Hide Menu Symbol for Larger Screens */
+@media screen and (min-width: 769px) {
+    .header .nav-toggle {
+        display: none;
+    }
+}
+        
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">Rp2 Movies</div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for movies...">
+            </div>
+            <nav class="nav">
+                <div class="nav-toggle">&#9776;</div>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Movies</a></li>
+                    <li><a href="#">Genres</a></li>
+                    <li><a href="#">My List</a></li>
+                    <li><a href="#">Profile</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- Slider Section -->
+    <section>
+        <div class="hcontainer swiper-container">
+            <div class="swiper-wrapper">
+                {% for movie in movies %}
+                <div class="swiper-slide" style="background-image: url('{{movie.image}}');">
+                    <div class="photo"></div>
+                    <div class="content">
+                        <h2>{{movie.title}}</h2>
+                       
+                        <p>{{movie.description}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- Pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.1.6/swiper-bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navToggle = document.querySelector('.nav-toggle');
+            const navMenu = document.querySelector('.header .nav ul');
+
+            // Toggle the 'open' class when the menu symbol is clicked
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('open');
+            });
+
+            const swiper = new Swiper('.hcontainer', {
+                loop: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                effect: 'coverflow',
+                grabCursor: true,
+                centeredSlides: true,
+                slidesPerView: 'auto',
+                coverflowEffect: {
+                    rotate: 50,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows: true,
+                },
+            });
+        });
+    </script>
+</body>
+</html>

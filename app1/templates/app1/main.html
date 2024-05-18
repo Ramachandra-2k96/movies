@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #3e5b77;
+            margin: 0;
+            padding: 0;
+        }
+        #search-input {
+            width: 40%;
+            padding: 10px;
+            margin: 20px auto; /* Centering horizontally by setting left and right margins to auto */
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            display: block; /* Ensures the input field behaves as a block element */
+        }
+        
+        #search-results {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            padding: 0 10px;
+        }
+        .grid {
+            height: 600px;
+            width: 430px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-shadow: 6px -6px 33px rgba(0, 0, 0, 0.253);
+            box-sizing: border-box;
+            transition: box-shadow 0.3s ease;
+            z-index: 1;
+            overflow: hidden;
+            background-color: #caf2ed;
+        }
+
+        .grid img{
+            height: 260px;
+            width: 240px;
+            margin: 0 auto;
+            border-radius: 13px;
+        }
+        
+        .grid .title {
+            padding: 10px;
+            font-size: larger;
+            font-weight: bold;
+            padding-bottom: 12px;
+            display: -webkit-box; /* For Safari */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            -webkit-line-clamp: 2; /* Limit to 5 lines */
+        }
+        
+        .grid .desk{
+            padding: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: justify;
+        }
+        .grid:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="search-input" placeholder="Search movies...">
+
+    <div id="search-results">
+
+    </div>
+    <script>
+    
+        $('#search-input').on('input', function() {
+            var query = $(this).val().trim();
+            if (query !== '') {  // Check if the query is not empty
+                $.ajax({
+                    url: '/app1/ajax/search/',
+                    data: {
+                        'query': query
+                    },
+                    success: function(data) {
+                        $('#search-results').empty(); // Clear previous search results
+                        $.each(data, function(index, item) {
+                            $('#search-results').append(
+                                '<div class="grid">' 
+                                + '<img src="' + item.image + '" alt="Image">'
+                                + '<div class="title">' +item.title + '</div>'
+                                + '<div class="desk">' +item.description + '</div>'
+                                + '</div>');                    
+                            });
+                        }
+                });
+            } else {
+                $('#search-results').empty(); // Clear search results if query is empty
+            }
+        });
+    </script>
+</body>
+</html>

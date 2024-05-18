@@ -1,0 +1,39 @@
+<!-- upload.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload File</title>
+</head>
+<body>
+    <h2>Upload File</h2>
+    <form method="post" enctype="multipart/form-data" id="uploadForm">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Upload</button>
+    </form>
+    <div id="result"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#uploadForm').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "upload_file" %}',
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
+                    success: function(response){
+                        $('#result').html(response.success);
+                    },
+                    error: function(response){
+                        $('#result').html(response.error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

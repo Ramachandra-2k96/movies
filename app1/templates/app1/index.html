@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rp2 Movies</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #172030;
+        margin: 0;
+        padding: 0;
+    }
+    #search-input {
+        width: 40%;
+        padding: 10px;
+        margin: 20px auto; /* Centering horizontally by setting left and right margins to auto */
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        display: block; /* Ensures the input field behaves as a block element */
+    }
+    
+    #search-results {
+        margin-top: 20px;
+        min-height: 30vh;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        padding: 0 10px;
+    }
+    .grid {
+        height: 600px;
+        width: 430px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        text-align: center;
+        padding: 10px;
+        margin-bottom: 20px;
+        box-shadow: 6px -6px 33px rgba(0, 0, 0, 0.253);
+        box-sizing: border-box;
+        transition: box-shadow 0.3s ease;
+        z-index: 1;
+        overflow: hidden;
+        background-color: #caf2ed;
+    }
+
+    .grid img{
+        height: 260px;
+        width: 240px;
+        margin: 0 auto;
+        border-radius: 13px;
+    }
+    
+    .grid .title {
+        padding: 10px;
+        font-size: larger;
+        font-weight: bold;
+        padding-bottom: 12px;
+        display: -webkit-box; /* For Safari */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        -webkit-line-clamp: 2; /* Limit to 5 lines */
+    }
+    
+    .grid .desk{
+        padding: 6px;
+        font-family: 'Courier New', Courier, monospace;
+        text-align: justify;
+    }
+    .grid:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+    .swiper-container {
+        padding-bottom: 50px; /* Ensure space for pagination */
+    }
+    .movie-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        height: 90vh;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+    .movie-card:hover {
+        transform: translateY(-10px);
+    }
+    .movie-card img {
+        height: 56vh;
+        z-index: -1;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    }
+    .movie-card button {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        z-index: 1;
+        overflow: hidden;
+        background: linear-gradient(to right, #ff7e5f, #feb47b);
+    }
+    .movie-card button:hover {
+        background: linear-gradient(to right, #feb47b, #ff7e5f);
+    }
+  </style>
+</head>
+<body class="bg-white-100">
+  <!-- Header -->
+  <header class="bg-black text-white shadow-md">
+    <div class="container mx-auto flex justify-between items-center py-4 px-6">
+      <!-- Logo -->
+      <div class="flex items-center space-x-2">
+        <img src="https://th.bing.com/th/id/OIG2.LSDiKdk10Eul2.4PQW81?w=270&h=270&c=6&r=0&o=5&pid=ImgGn" alt="Logo" class="w-10 h-10">
+        <span class="text-2xl font-bold text-red-600">Rp2 Movies</span>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="hidden md:flex space-x-8">
+        <a href="#" class="text-white-600 hover:text-white-800">Home</a>
+        <a href="#" class="text-white-600 hover:text-white-800">About</a>
+      </nav>
+
+      <!-- Call to Action Button -->
+      <div class="hidden md:block">
+        <a href="#" class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300">Get Started</a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden">
+        <button class="text-white-600 focus:outline-none" id="mobileMenuBtn">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="md:hidden hidden" id="mobileMenu">
+    <div class="px-6 py-4 space-y-2">
+      <a href="#" class="block text-white-600 hover:text-white-800">Home</a>
+      <a href="#" class="block text-white-600 hover:text-white-800">About</a>
+      <a href="#" class="block px-6 py-2 mt-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300">Get Started</a>
+    </div>
+  </div>
+
+<section id="hero" class="bg-gradient-to-r from-gray-800 via-gray-900 to-black min-h-screen flex items-center justify-center p-6">
+    <div class="max-w-5xl w-full">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <!-- Movie Card 1 -->
+                {% for movie in search_results %}
+                <div class="swiper-slide">
+                    <div class="movie-card p-12 shadow-lg">
+                        <img src="{{movie.image}}" alt="Movie Poster" class="w-full h-72 object-cover rounded-t-lg mb-4">
+                        <h2 class="text-2xl text-white font-semibold mb-2">{{movie.title}}</h2>
+                        <p class="text-gray-300 mb-4">{{movie.description}}</p>
+                        <button class="w-full py-2 px-4 rounded text-white font-bold transition">Know More</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+</section>
+<section>
+    <input type="text" id="search-input" placeholder="Search movies...">
+
+    <div id="search-results">
+
+    </div>
+</section>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script>
+    const swiper = new Swiper('.swiper-container', {
+        loop: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        effect: 'coverflow',
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        coverflowEffect: {
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+        },
+    });
+    // JavaScript to toggle the mobile menu
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+      const mobileMenu = document.getElementById('mobileMenu');
+      mobileMenu.classList.toggle('hidden');
+    });
+    $('#search-input').on('input', function() {
+        var query = $(this).val().trim();
+        if (query !== '') {  // Check if the query is not empty
+            $.ajax({
+                url: '/app1/ajax/search/',
+                data: {
+                    'query': query
+                },
+                success: function(data) {
+                    $('#search-results').empty(); // Clear previous search results
+                    $.each(data, function(index, item) {
+                        $('#search-results').append(
+                            '<div class="grid">' 
+                            + '<img src="' + item.image + '" alt="Image">'
+                            + '<div class="title">' +item.title + '</div>'
+                            + '<div class="desk">' +item.description + '</div>'
+                            + '</div>');                    
+                        });
+                    }
+            });
+        } else {
+            $('#search-results').empty(); // Clear search results if query is empty
+        }
+    });
+        
+    </script>
+    <footer class="bg-gray-900 text-gray-300 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <!-- Logo and Description -->
+            <div class="mb-6 md:mb-0">
+                <h3 class="text-2xl font-bold text-white mb-2">Rp2 Movies</h3>
+                <p>Your ultimate destination for discovering and enjoying the best movies from around the world.</p>
+            </div>
+            <!-- Links -->
+            <div class="flex space-x-6 mb-6 md:mb-0">
+                <a href="#" class="hover:text-white">Home</a>
+                <a href="#" class="hover:text-white">About</a>
+                <a href="#" class="hover:text-white">Privacy Policy</a>
+            </div>
+            <!-- Social Media Icons -->
+            <div class="flex space-x-6">
+                <a href="#" class="text-gray-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.733 0-1.325.592-1.325 1.325v21.351c0 .732.592 1.324 1.325 1.324h11.495v-9.284h-3.12v-3.622h3.12v-2.675c0-3.092 1.894-4.778 4.66-4.778 1.325 0 2.464.099 2.794.143v3.239l-1.918.001c-1.504 0-1.795.714-1.795 1.763v2.308h3.59l-.467 3.622h-3.123v9.284h6.124c.733 0 1.324-.592 1.324-1.324v-21.351c0-.733-.591-1.325-1.324-1.325z"/></svg>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M11.997 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.688 9.888c-.202-.362-.424-.685-.672-.97-.257-.295-.584-.534-.965-.716-.38-.181-.812-.273-1.296-.273-.645 0-1.204.159-1.678.478-.474.318-.849.728-1.122 1.23-.273.503-.41 1.078-.41 1.725s.137 1.222.41 1.725c.273.503.648.912 1.122 1.23.474.319 1.033.478 1.678.478.66 0 1.208-.159 1.645-.478.437-.319.772-.731 1.005-1.237.233-.506.35-1.079.35-1.718 0-.41-.042-.813-.124-1.206zM18.753 8.294c-.084.294-.202.574-.355.839-.153.265-.33.498-.53.7-.2.202-.437.372-.712.51-.276.138-.591.206-.946.206-.446 0-.855-.069-1.227-.206-.372-.138-.693-.331-.963-.58a2.6 2.6 0 0 1-.675-.967c-.163-.398-.245-.853-.245-1.366 0-.614.105-1.168.315-1.66.21-.491.502-.913.878-1.266.377-.353.824-.62 1.342-.801.518-.18 1.075-.271 1.67-.271.698 0 1.332.128 1.901.385.569.257 1.048.595 1.438 1.016.39.421.69.922.9 1.502.21.579.315 1.214.315 1.901 0 .614-.084 1.187-.253 1.718-.169.532-.416.998-.74 1.4-.323.402-.721.722-1.194.961z"/></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
