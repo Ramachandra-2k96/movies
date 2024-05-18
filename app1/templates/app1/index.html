@@ -96,7 +96,7 @@
         z-index: -1;
         border-bottom: 2px solid rgba(255, 255, 255, 0.3);
     }
-    .movie-card button {
+    .movie-card a {
         position: absolute;
         bottom: 20px;
         left: 20px;
@@ -104,7 +104,7 @@
         overflow: hidden;
         background: linear-gradient(to right, #ff7e5f, #feb47b);
     }
-    .movie-card button:hover {
+    .movie-card a:hover {
         background: linear-gradient(to right, #feb47b, #ff7e5f);
     }
   </style>
@@ -127,7 +127,7 @@
 
       <!-- Call to Action Button -->
       <div class="hidden md:block">
-        <a href="#" class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300">Get Started</a>
+        <a href="{% url 'login' %}" class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300">Get Started</a>
       </div>
 
       <!-- Mobile Menu Button -->
@@ -146,7 +146,7 @@
     <div class="px-6 py-4 space-y-2">
       <a href="#" class="block text-white-600 hover:text-white-800">Home</a>
       <a href="#" class="block text-white-600 hover:text-white-800">About</a>
-      <a href="#" class="block px-6 py-2 mt-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300">Get Started</a>
+      <a href="{% url 'login' %}" class="block px-6 py-2 mt-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300">Get Started</a>
     </div>
   </div>
 
@@ -161,7 +161,7 @@
                         <img src="{{movie.image}}" alt="Movie Poster" class="w-full h-72 object-cover rounded-t-lg mb-4">
                         <h2 class="text-2xl text-white font-semibold mb-2">{{movie.title}}</h2>
                         <p class="text-gray-300 mb-4">{{movie.description}}</p>
-                        <button class="w-full py-2 px-4 rounded text-white font-bold transition">Know More</button>
+                        <a href="{% url 'login' %}" class="w-full py-2 px-4 rounded text-white font-bold transition">Know More</a>
                     </div>
                 </div>
                 {% endfor %}
