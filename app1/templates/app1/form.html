@@ -74,7 +74,7 @@
         background: #6d44b8;
     }
     .login{
-        height: 460px;
+        height: 590px;
         background: linear-gradient(to bottom, #d5ddd2, #3d2a3d, #350000);
         border-radius: 60% / 10%;
         transform: translateY(-180px);
@@ -86,7 +86,7 @@
     }
     
     #chk:checked ~ .login{
-        transform: translateY(-500px);
+        transform: translateY(-570px);
     }
     #chk:checked ~ .login label{
         transform: scale(1);	
@@ -124,8 +124,14 @@
 			</div>
 	</div>
     <script>
-        {%if error_message %}
-        alert({{error_message}})
+        {% if form2.errors %}
+        var errorMessage = "";
+        {% for field, errors in form2.errors.items %}
+            {% for error in errors %}
+                errorMessage += "{{ field }}: {{ error|escapejs }}\n";
+            {% endfor %}
+        {% endfor %}
+        alert(errorMessage);
         {% endif %}
     </script>
 </body>

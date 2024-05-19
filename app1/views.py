@@ -18,10 +18,10 @@ def search_items(request):
     return JsonResponse(list(items.values('id','title', 'image', 'date', 'gener', 'rating', 'description')), safe=False)
 
 def land(request):
-    random_movies=Movies.objects.order_by('?')[:15]
+    random_movies=Movies.objects.filter(gener__icontains="Action").order_by('?')[:15]
     return render(request, 'app1/index.html',{'search_results': list(random_movies.values('id','title', 'image', 'date', 'gener', 'rating', 'description'))})
 def home(request):
-    random_movies=Movies.objects.order_by('?')[:15]
+    random_movies=Movies.objects.filter(gener__icontains="Action").order_by('?')[:15]
     return render(request, 'app1/home.html',{'movies': list(random_movies.values('id','title', 'image', 'date', 'gener', 'rating', 'description'))})
 
 def login_view(request):
@@ -36,7 +36,7 @@ def login_view(request):
 				login(request, user)
 				return redirect('home')
 			else:
-				return render(request, 'app1/form.html', {'form1': log,"form2":sin, 'error_message': 'Invalid username or password'})
+				return render(request, 'app1/form.html', {'form1': log,"form2":sin})
 		else:
 			if sin.is_valid():
 				sin.save()

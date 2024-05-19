@@ -117,16 +117,22 @@
         transform: translateY(-10px);
     }
     .movie-card img {
+        margin: 0 auto;
         height: 56vh;
+        width: 70vh;
         z-index: -1;
+        border-radius: 12px;
         border-bottom: 2px solid rgba(255, 255, 255, 0.3);
     }
     .movie-card a {
+        
         position: absolute;
         bottom: 20px;
         left: 20px;
         z-index: 1;
         overflow: hidden;
+        width: 13vh;
+        margin: 0 auto;
         background: linear-gradient(to right, #ff7e5f, #feb47b);
     }
     .movie-card a:hover {
@@ -217,7 +223,7 @@
                 {% for movie in search_results %}
                 <div class="swiper-slide">
                     <div class="movie-card p-12 shadow-lg">
-                        <img src="{{movie.image}}" alt="Movie Poster" class="w-full h-72 object-cover rounded-t-lg mb-4">
+                        <img src="{{movie.image}}" alt="Movie Poster" class="rounded-t-lg mb-4">
                         <h2 class="text-2xl text-white font-semibold mb-2">{{movie.title}}</h2>
                         <p class="text-gray-300 mb-4">{{movie.description}}</p>
                         {% if movie.id %}
