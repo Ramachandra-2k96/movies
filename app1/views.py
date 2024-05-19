@@ -10,18 +10,19 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
+from django.contrib.auth.models import AnonymousUser
 
 def search_items(request):
     query = request.GET.get('query', '')
-    items = Movies.objects.filter(title__icontains=query)
-    return JsonResponse(list(items.values('title', 'image', 'date', 'gener', 'rating', 'description')), safe=False)
+    items = Movies.objects.filter(title__icontains=query)[:25]
+    return JsonResponse(list(items.values('id','title', 'image', 'date', 'gener', 'rating', 'description')), safe=False)
 
 def land(request):
     random_movies=Movies.objects.order_by('?')[:15]
-    return render(request, 'app1/index.html',{'search_results': list(random_movies.values('title', 'image', 'date', 'gener', 'rating', 'description'))})
+    return render(request, 'app1/index.html',{'search_results': list(random_movies.values('id','title', 'image', 'date', 'gener', 'rating', 'description'))})
 def home(request):
     random_movies=Movies.objects.order_by('?')[:15]
-    return render(request, 'app1/home.html',{'movies': list(random_movies.values('title', 'image', 'date', 'gener', 'rating', 'description'))})
+    return render(request, 'app1/home.html',{'movies': list(random_movies.values('id','title', 'image', 'date', 'gener', 'rating', 'description'))})
 
 def login_view(request):
 	if request.method == 'POST':
@@ -100,3 +101,21 @@ def upload_file(request):
     else:
         form = UploadFileForm()
     return render(request, 'app1/upload.html', {'form': form})
+
+def movie_detail(request,movie_id):
+    if isinstance(request.user, AnonymousUser):
+        return redirect('login')
+    else:
+        from datetime import datetime
+        movie=Movies.objects.get(id=movie_id)
+        formatted_date = movie.date.strftime("%Y-%B-%d")
+        mov={
+            'title':movie.title,
+            'image':movie.image,
+            'date':formatted_date,
+            'gener':movie.gener,
+            'rating':movie.rating,
+            'description':movie.description
+        }
+        print(formatted_date)
+        return render(request,'app1/movie_detail.html',{'movie':mov})

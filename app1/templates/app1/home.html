@@ -199,8 +199,8 @@
                     <div class="photo"></div>
                     <div class="content">
                         <h2>{{movie.title}}</h2>
-                       
                         <p>{{movie.description}}</p>
+                        <a href="{% url 'movie_detail' movie.id %}"></a>
                     </div>
                 </div>
                 {% endfor %}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Detail</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 90%;
+            max-width: 1200px;
+        }
+        .movie-card {
+            background-color: #1f1f1f;
+            border-radius: 15px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+        .movie-card:hover {
+            transform: translateY(-10px);
+        }
+        .movie-poster {
+            width: 100%;
+            height: auto;
+        }
+        .movie-content {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .movie-title {
+            font-size: 2rem;
+            margin: 0.5rem 0;
+        }
+        .movie-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 0.5rem 0 1rem 0;
+        }
+        .movie-details {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .movie-details p {
+            margin: 0.3rem 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            margin: 0.5rem 0;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #fff;
+            background-color: #e50914;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+        .btn:hover {
+            background-color: #d40813;
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .movie-card {
+                grid-template-columns: 1fr;
+            }
+            .movie-content {
+                padding: 1.5rem;
+            }
+            .movie-title {
+                font-size: 1.5rem;
+            }
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <div class="movie-card">
+            <img src="{{movie.image}}" alt="Movie Poster" class="movie-poster">
+            <div class="movie-content">
+                <h1 class="movie-title">{{movie.title}}</h1>
+                <p class="movie-description">{{movie.description}}</p>
+                <div class="movie-details">
+                    <p><strong>Genre:</strong> {{movie.gener}}</p>
+                    <p><strong>Release Date:</strong> {{movie.date}}</p>
+                    <p><strong>Rating:</strong> {{movie.rating}}</p>
+                </div>
+                <button class="btn" onclick="playTrailer()">Watch Trailer</button>
+                <button class="btn" onclick="addToList()">Add to List</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function playTrailer() {
+            alert("Playing trailer...");
+            // Implement trailer playing logic here
+        }
+
+        function addToList() {
+            alert("Added to your list!");
+            // Implement add to list logic here
+        }
+    </script>
+</body>
+</html>
