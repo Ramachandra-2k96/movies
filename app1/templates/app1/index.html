@@ -7,109 +7,22 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
   <style>
     body {
         font-family: Arial, sans-serif;
         background-color: #172030;
-        margin: 0;
-        padding: 0;
-    }
-    #search-input {
-        width: 40%;
-        padding: 10px;
-        margin: 20px auto; /* Centering horizontally by setting left and right margins to auto */
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-sizing: border-box;
-        display: block; /* Ensures the input field behaves as a block element */
-    }
-    
-    #search-results {
-        margin-top: 20px;
-        min-height: 30vh;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        padding: 0 10px;
-        overflow: hidden;
-    }
-    .grid {
-        height: 600px;
-        width: 350px;
-        background-color: #41c1d881;
-        border: 1px solid #ddd;
-        border-radius: 15px;
-        text-align: center;
-        padding: 10px;
-        margin-bottom: 20px;
-        box-shadow: 6px -6px 33px rgba(0, 0, 0, 0.253);
-        box-sizing: border-box;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
-        z-index: 1;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        color: #fff;
-    }
-    
-    .grid img {
-        height: 260px;
-        width: 240px;
-        margin: 0 auto;
-        border-radius: 13px;
-        background-size: cover; /* Set background size to contain */
-    background-position: center;
-    background-repeat: no-repeat;
-    }
-    
-    .grid .title {
-        padding: 10px;
-        font-size: larger;
-        font-weight: bold;
-        display: -webkit-box; /* For Safari */
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        -webkit-line-clamp: 2; /* Limit to 2 lines */
-        height: 50px; /* Set a fixed height */
-        line-height: 1.2em; /* Adjust line height if needed */
-    }
-    
-    .grid .desk {
-        padding: 10px;
-        font-size: medium;
-        font-family: 'Courier New', Courier, monospace;
-        text-align: justify;
-        overflow-y: scroll; /* Allow vertical scrolling */
-        flex-grow: 1; /* Make this element take the remaining space */
-    }
-    
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    .grid .desk::-webkit-scrollbar {
-        display: none;
-    }
-    
-    /* Hide scrollbar for IE, Edge and Firefox */
-    .grid .desk {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
-    }
-    
-    .grid:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     }
     .swiper-container {
-        padding-bottom: 50px; /* Ensure space for pagination */
         overflow: hidden;
     }
     .movie-card {
         background: rgba(255, 255, 255, 0.35);
         backdrop-filter: blur(10px);
         border-radius: 20px;
-        height: 80vh;
+        height: 85vh;
+        width: auto;
         overflow: hidden;
         transition: transform 0.3s ease;
     }
@@ -125,14 +38,14 @@
         border-bottom: 2px solid rgba(255, 255, 255, 0.3);
     }
     .movie-card a {
-        
         position: absolute;
         bottom: 20px;
         left: 20px;
         z-index: 1;
         overflow: hidden;
-        width: 13vh;
+        width: auto;
         margin: 0 auto;
+        font:small;
         background: linear-gradient(to right, #ff7e5f, #feb47b);
     }
     .movie-card a:hover {
@@ -143,33 +56,44 @@
     .swiper-container{
         overflow:visible;
     }
-    .grid {
-        height: 600px;
-        width: 430px;
-        background-color: #41c1d881;
-        border: 1px solid #ddd;
-        border-radius: 15px;
-        text-align: center;
-        padding: 10px;
-        margin-bottom: 20px;
-        box-shadow: 6px -6px 33px rgba(0, 0, 0, 0.253);
-        box-sizing: border-box;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
-        z-index: 1;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        color: #fff;
-    }
+
 }
 @media screen and (max-width: 1000px) {
     .swiper-container{
         overflow:hidden;
     }
+    .movie-card a {
+        font-size: small;
+    }
+    
 }
 @media screen and (max-width: 1800px) {
     .swiper-container{
         overflow:hidden;
+    }
+    .movie-card img
+    {
+        height: 45vh;
+    }
+    .movie-card p{
+        max-height: 15vh;
+        overflow: auto;
+    }
+}
+@media screen and (max-width: 375px) {
+    .swiper-container{
+        overflow:hidden;
+    }
+    .movie-card img
+    {
+        height: 45vh;
+    }
+    .movie-card p{
+        max-height: 15vh;
+        overflow: auto;
+    }
+    .movie-card a{
+        font-size: small;
     }
 }
   </style>
@@ -186,7 +110,7 @@
 
       <!-- Navigation -->
       <nav class="hidden md:flex space-x-8">
-        <a href="#" class="text-white-600 hover:text-white-800">Home</a>
+        <a href="{% url 'home' %}" class="text-white-600 hover:text-white-800">Home</a>
         <a href="#" class="text-white-600 hover:text-white-800">About</a>
       </nav>
 
@@ -209,7 +133,7 @@
   <!-- Mobile Menu -->
   <div class="md:hidden hidden" id="mobileMenu">
     <div class="px-6 py-4 space-y-2">
-      <a href="#hero" class="block font-semibold text-white hover:text-white-800">Home</a>
+      <a href="{% url 'home' %}" class="block font-semibold text-white hover:text-white-800">Home</a>
       <a href="#search-input" class="block font-semibold text-white hover:text-white-800">Search</a>
       <a href="{% url 'login' %}" class="block px-6 py-2 mt-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300">Get Started</a>
     </div>
@@ -233,24 +157,13 @@
                 </div>
                 {% endfor %}
             </div>
-            <div class="swiper-pagination"></div>
         </div>
     </div>
 </section>
-<section>
-    <input type="text" id="search-input" placeholder="Search movies...">
 
-    <div id="search-results">
-
-    </div>
-</section>
   <script>
     const swiper = new Swiper('.swiper-container', {
         loop: true,
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
         autoplay: {
             delay: 5000,
             disableOnInteraction: false,
@@ -271,42 +184,7 @@
     document.getElementById('mobileMenuBtn').addEventListener('click', () => {
       const mobileMenu = document.getElementById('mobileMenu');
       mobileMenu.classList.toggle('hidden');
-    });
-    $('#search-input').on('input', function() {
-        var query = $(this).val().trim();
-        if (query !== '') {  // Check if the query is not empty
-            $.ajax({
-                url: '/app1/ajax/search/',
-                data: {
-                    'query': query
-                },
-                success: function(data) {
-                    $('#search-results').empty(); // Clear previous search results
-                    $.each(data, function(index, item) {
-                        let html = '<div class="grid">' 
-                                 + '<img src="' + item.image + '" alt="Image">'
-                                 + '<div class="title">' + item.title + '</div>'
-                                 + '<div class="desk">' + item.description + '</div>';
-                                 
-                        if (item.id) {
-                            // Assuming your URL structure for movie_detail
-                            const url = 'movie_detail/' + item.id; 
-                            html += '<a href="' + url + '" class="w-full py-2 px-4 rounded text-white font-bold transition">Know More</a>';
-                        }
-                        
-                        html += '</div>';
-                        
-                        $('#search-results').append(html);
-                        console.log(item.id);
-                    });
-                    
-                    }
-            });
-        } else {
-            $('#search-results').empty(); // Clear search results if query is empty
-        }
-    });
-        
+    }); 
     </script>
     <footer class="bg-gray-900 text-gray-300 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">

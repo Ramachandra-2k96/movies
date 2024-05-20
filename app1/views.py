@@ -1,6 +1,6 @@
 from random import Random
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from .forms import UploadFileForm,CustomAuthenticationForm,CustomUserCreationForm
 import pandas as pd
 from .models import Movies
@@ -12,20 +12,10 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.auth.models import AnonymousUser
 
-def search_items(request):
-    query = request.GET.get('query', '')
-    items = Movies.objects.filter(title__icontains=query)[:25]
-    return JsonResponse(list(items.values('id','title', 'image', 'date', 'gener', 'rating', 'description')), safe=False)
-
 def land(request):
     random_movies=Movies.objects.filter(gener__icontains="Action").order_by('?')[:15]
     return render(request, 'app1/index.html',{'search_results': list(random_movies.values('id','title', 'image', 'date', 'gener', 'rating', 'description'))})
-def home(request):
-    if isinstance(request.user, AnonymousUser):
-        return redirect('login')
-    else:
-        random_movies=Movies.objects.filter(gener__icontains="Action").order_by('?')[:15]
-        return render(request, 'app1/home.html',{'movies': list(random_movies.values('id','title', 'image', 'date', 'gener', 'rating', 'description'))})
+
 
 def login_view(request):
 	if request.method == 'POST':
@@ -49,9 +39,36 @@ def login_view(request):
 			else:
 				return render(request, 'app1/form.html', {'form1': log,"form2":sin,'error_message': 'Invalid username or password'})
 	else:
-		log = CustomAuthenticationForm()
-		sin = CustomUserCreationForm()
-		return render(request, 'app1/form.html', {'form1': log,"form2":sin})
+         if isinstance(request.user, AnonymousUser):
+            log = CustomAuthenticationForm()
+            sin = CustomUserCreationForm()
+            return render(request, 'app1/form.html', {'form1': log,"form2":sin})
+         else:
+            return redirect('home')
+        
+def home(request):
+    if isinstance(request.user, AnonymousUser):
+        return redirect('login')
+    else:
+        random_movies=Movies.objects.filter(gener__icontains="Action").order_by('?')[:15]
+        recomendation=list(random_movies.values('id','title', 'image', 'date', 'gener', 'rating', 'description'))
+        
+        random_movies=Movies.objects.filter(rating__gte=8.0).order_by('?').exclude(gener__icontains="Romance")[:20]
+        popular=list(random_movies.values('id','title', 'image', 'date', 'gener', 'rating', 'description'))
+        
+        random_movies=Movies.objects.filter(gener__icontains="Action",rating__gte=7.0).order_by('?')[:20]
+        action=list(random_movies.values('id','title', 'image', 'date', 'gener', 'rating', 'description'))
+        
+        random_movies=Movies.objects.filter(gener__icontains="Drama",rating__gte=7.0).order_by('?')[:20]
+        drama=list(random_movies.values('id','title', 'image', 'date', 'gener', 'rating', 'description'))
+        
+        random_movies=Movies.objects.filter(gener__icontains="Science Fiction",rating__gte=7.0).order_by('?')[:20]
+        Science_Fiction=list(random_movies.values('id','title', 'image', 'date', 'gener', 'rating', 'description'))
+        
+        random_movies=Movies.objects.filter(gener__icontains="Comedy",rating__gte=7.0).order_by('?')[:20]
+        Comedy=list(random_movies.values('id','title', 'image', 'date', 'gener', 'rating', 'description'))
+        
+        return render(request, 'app1/home.html',{'recomendation':recomendation,"popular":popular,"action":action,"Comedy":Comedy,"Science_Fiction" :Science_Fiction,"drama":drama})
 
 
 def profile(request):
@@ -62,7 +79,36 @@ def logout_view(request):
 	logout(request)
 	return redirect('login')
 
-@login_required
+def search_items(request):
+    query = request.GET.get('query', '')
+    items = Movies.objects.filter(title__istartswith=query)[:25]
+    return JsonResponse(list(items.values('id','title', 'image', 'date', 'gener', 'rating', 'description')), safe=False)
+
+
+def add(request,movie_id):
+    return HttpResponse("<h1>Development in progress, please come again after some time</h1>")
+
+def search(request):
+    return HttpResponse("<h1>Development in progress, please come again after some time</h1>")
+
+def movie_detail(request,movie_id):
+    if isinstance(request.user, AnonymousUser):
+        return redirect('login')
+    else:
+        from datetime import datetime
+        movie=Movies.objects.get(id=movie_id)
+        formatted_date = movie.date.strftime("%Y-%B-%d")
+        mov={
+            'title':movie.title,
+            'image':movie.image,
+            'date':formatted_date,
+            'gener':movie.gener,
+            'rating':movie.rating,
+            'description':movie.description
+        }
+        print(formatted_date)
+        return render(request,'app1/movie_detail.html',{'movie':mov})
+
 def upload_file(request):
     if request.method == 'POST':
         chunk_size = 1000
@@ -110,21 +156,3 @@ def upload_file(request):
         form = UploadFileForm()
     return render(request, 'app1/upload.html', {'form': form})
 
-
-def movie_detail(request,movie_id):
-    if isinstance(request.user, AnonymousUser):
-        return redirect('login')
-    else:
-        from datetime import datetime
-        movie=Movies.objects.get(id=movie_id)
-        formatted_date = movie.date.strftime("%Y-%B-%d")
-        mov={
-            'title':movie.title,
-            'image':movie.image,
-            'date':formatted_date,
-            'gener':movie.gener,
-            'rating':movie.rating,
-            'description':movie.description
-        }
-        print(formatted_date)
-        return render(request,'app1/movie_detail.html',{'movie':mov})

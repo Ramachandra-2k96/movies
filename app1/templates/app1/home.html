@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rp2 Movies - Home</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.1.6/swiper-bundle.min.css">
     <style>
         /* General Styles */
@@ -43,11 +45,13 @@
             color: #fff;
             text-decoration: none;
         }
-        .header .search-bar input {
+        .header .search-bar {
+          display: flex;
+          text-align: center;
+          align-items: center;
             padding: 0.5rem;
             background-color: #333;
-            border: none;
-            color: #fff;
+            color: #867c7cec;
             width: 250px;
             height: 30px;
         }
@@ -58,7 +62,10 @@
             overflow: hidden;
             position: relative;
         }
-        .swiper-slide {
+        #home{
+          height: 90vh;
+        }
+        .hov{
             width: 100%;
             height: 100%;
             display: flex;
@@ -69,17 +76,17 @@
             background-repeat: no-repeat; 
             position: relative;
         }
-        .swiper-slide:hover::before {
+        .hov:hover::before {
             content: '';
             position: absolute;
-            width: 40%;
+            width: 50%;
             height: 100%;
             background-color: rgba(255, 255, 255, 0.9);
             left: 0;
             top: 0;
             z-index: 1;
         }
-        .swiper-slide .photo {
+        .hov .photo {
             width: 100%; /* Set width to 100% initially */
             height: 100%;
             background-size: cover;
@@ -88,14 +95,14 @@
             z-index: 2;
             transition: width 0.3s ease; /* Add transition for smooth effect */
         }
-        .swiper-slide:hover .photo {
+        .hov:hover .photo {
             width: 40%; /* Reduce width on hover */
         }
-        .swiper-slide .content {
+        .hov .content {
             position: absolute;
             top: 0;
             left: 0;
-            width: 40%; /* Set width to 60% to match white block width */
+            width: 50%; /* Set width to 60% to match white block width */
             height: 100%;
             text-align: center;
             background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
@@ -104,27 +111,195 @@
             opacity: 0; /* Hide content initially */
             z-index: 3;
         }
-        .swiper-slide:hover .content {
+        .hov:hover .content {
             opacity: 1; /* Show content on hover */
         }
-        .swiper-slide .content h2,
-        .swiper-slide .content p {
+        .hov.content h2,
+        .hov.content p {
             display: flex;
             align-items: center;
             justify-content: start;
             padding: 1rem;
             color: #fff;
         }
-        .swiper-slide .content h2{
+        .hov .content h2{
             font-size: 3rem;
             font-weight: bold;
         }
-        .swiper-slide .content p {
+        .hov.content p {
             font-size: 1.3rem;
             text-align: justify;
         }
+        .hov .content a{
+            font-size: 1.3rem;
+            text-align: justify;
+        }
+        .container1 {
+            max-width: 96rem;
+            padding: 0 1rem;
+            margin: 0 auto;
+          }
+          
+          .text-center {
+            text-align: center;
+          }
+          
+          .section-heading {
+            font-size: 3rem;
+            color: var(--primary);
+            padding: 2rem 0;
+          }
+          section{
+            height: 100vh;
+
+          }
+          
+          @media (max-width:1440px) {
+            #tranding {
+              padding: 5rem 0;
+            }
+          }
+          
+          #tranding .tranding-slider {
+            height: 52rem;
+            padding: 2rem 0;
+            position: relative;
+          }
+          
+          @media (max-width:500px) {
+            #tranding .tranding-slider {
+              height: 45rem;
+            }
+          }
+          
+          .tranding-slide {
+            width: 37rem;
+            height: 42rem;
+            position: relative;
+          }
+          
+          @media (max-width:500px) {
+            .tranding-slide {
+              width: 25rem !important;
+              height: 29rem !important;
+            }
+            .tranding-slide .tranding-slide-img img {
+              width: 28rem !important;
+              height: 36rem !important;
+            }
+          }
+          
+          .tranding-slide .tranding-slide-img img {
+            width: 37rem;
+            height: 42rem;
+            border-radius: 2rem;
+            object-fit: cover;
+          }
+          
+          @media (max-width:990px) {
+            .tranding-slider-control .swiper-button-next {
+              left: 70% !important;
+              transform: translateX(-70%) !important;
+            }
+          }
+          
+          @media (max-width:450px) {
+            .tranding-slider-control .swiper-button-next {
+              left: 80% !important;
+              transform: translateX(-80%) !important;
+            }
+          }
+          
+          @media (max-width:990px) {
+            .tranding-slider-control .swiper-button-prev {
+              left: 30% !important;
+              transform: translateX(-30%) !important;
+            }
+          }
+          
+          @media (max-width:450px) {
+            .tranding-slider-control .swiper-button-prev {
+              left: 20% !important;
+              transform: translateX(-20%) !important;
+            }
+          }
+          .hover-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content:left;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* Dark background with transparency */
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            text-align: center;
+            padding: 40px;
+            box-sizing: border-box;
+            border-radius: 29px;
+            gap: 10px; /* Add some space between the elements */
+          }
+          
+          .hover-text .heading {
+            font-size: 1.6em;
+            margin-bottom: 10px;
+            font-weight: bold;
+          }
+          
+          .hover-text .description {
+            padding: 12px;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            text-align: justify;
+            max-height: 240px; /* Set a fixed height for scrollable area */
+            overflow: auto; /* Enable scrolling */
+            scrollbar-width: none; /* Firefox: Hide scrollbar */
+            -ms-overflow-style: none; /* IE and Edge: Hide scrollbar */
+          }
+          .hover-text .rating{
+            padding: 12px;
+            font-size: larger;
+            font-weight: bolder;
+          }
+          .hover-text a {
+            text-decoration: none;
+            background-color: rgb(255, 93, 93);
+            color: aliceblue;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+          }
+          
+          .hover-text a:hover {
+            background-color: rgb(220, 50, 50);
+            transform: scale(1.05);
+          }
+          
+          .tranding-slide {
+            position: relative; /* Ensure the slide is positioned relatively for absolute positioning of the hover text */
+            overflow: hidden; /* Hide overflow to keep hover text within bounds */
+            border-radius: 29px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+          }
+          
+          .tranding-slide-img img {
+            border-radius: 29px; /* Make sure the image has rounded corners to match the container */
+          }
+          
+          .tranding-slide:hover .hover-text {
+            opacity: 1;
+          }
+          
         /* Media Query for Mobile */
 @media screen and (max-width: 768px) {
+    .header .logo{
+        font-size: 0.7rem;
+        font-weight: 600;
+    }
     .header .nav ul {
         display: none;
         flex-direction: column;
@@ -150,12 +325,22 @@
         font-size: 1.5rem;
         cursor: pointer;
     }
+    .hov .content{
+        width: 50%;
+        text-align: center;
+
+    }
     .swiper-slide .content h2{
         font-size: 1rem;
         font-weight: bold;
     }
     .swiper-slide .content p {
-        font-size: 0.6rem;
+        padding:15px;
+        font-size: 0.7rem;
+        text-align: justify;
+    }
+    .hov .content a{
+        font-size: 0.7rem;
         text-align: justify;
     }
 }
@@ -174,9 +359,9 @@
     <header class="header">
         <div class="container">
             <div class="logo">Rp2 Movies</div>
-            <div class="search-bar">
-                <input type="text" placeholder="Search for movies...">
-            </div>
+            <a href="{% url 'search' %}"><div class="search-bar">
+              serach here...
+          </div></a>
             <nav class="nav">
                 <div class="nav-toggle">&#9776;</div>
                 <ul>
@@ -189,28 +374,179 @@
             </nav>
         </div>
     </header>
+
     <!-- Slider Section -->
     <section id="home">
         <div class="hcontainer swiper-container">
             <div class="swiper-wrapper">
-                {% for movie in movies %}
-                <div class="swiper-slide" style="background-image: url('{{movie.image}}');">
+                {% for movie in recomendation %}
+                <div class="swiper-slide hov" style="background-image: url('{{movie.image}}');">
                     <div class="photo"></div>
                     <div class="content">
                         <h2>{{movie.title}}</h2>
                         <p>{{movie.description}}</p>
-                        <a href="{% url 'movie_detail' movie.id %}"></a>
+                        <a href="{% url 'movie_detail' movie.id %}"class="w-full py-6 px-8 rounded text-red-600 font-bold transition">Know more</a>
                     </div>
                 </div>
                 {% endfor %}
             </div>
-            <!-- Pagination -->
-            <div class="swiper-pagination"></div>
         </div>
     </section>
-<section id="movies">
 
-</section>
+
+    <section id="tranding">
+        <div class="container1">
+          <h1 class="text-center section-heading">Trending</h1>
+        </div>
+        <div class="container">
+          <div class="swiper tranding-slider">
+            <div class="swiper-wrapper">
+                {% for movie in popular%}
+              <div class="swiper-slide tranding-slide">
+                <div class="tranding-slide-img">
+                  <img src="{{movie.image}}" alt="{{movie.title}}">
+                </div>
+                <div class="hover-text">
+                  <div class="heading">{{movie.title}}</div>
+                  <div class="description">{{movie.description}}</div>
+                 <div class="rating">Rating : {{movie.rating}}</div>
+                  <a href="{% url 'movie_detail' movie.id %}">Know More</a>
+                  <a href="{% url 'add' movie.id %}">Add to Watchlist</a>
+              </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tranding">
+        <div class="container1">
+          <h1 class="text-center section-heading">Action Movies</h1>
+        </div>
+        <div class="container">
+          <div class="swiper tranding-slider">
+            <div class="swiper-wrapper">
+                {% for movie in action%}
+              <div class="swiper-slide tranding-slide">
+                <div class="tranding-slide-img">
+                  <img src="{{movie.image}}" alt="{{movie.title}}">
+                </div>
+                <div class="hover-text">
+                  <div class="heading">{{movie.title}}</div>
+                  <div class="description">{{movie.description}}</div>
+                 <div class="rating">Rating : {{movie.rating}}</div>
+                  <a href="{% url 'movie_detail' movie.id %}">Know More</a>
+                  <a href="{% url 'add' movie.id %}">Add to Watchlist</a>
+              </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tranding">
+        <div class="container1">
+          <h1 class="text-center section-heading">Comedy Movies</h1>
+        </div>
+        <div class="container">
+          <div class="swiper tranding-slider">
+            <div class="swiper-wrapper">
+                {% for movie in Comedy%}
+              <div class="swiper-slide tranding-slide">
+                <div class="tranding-slide-img">
+                  <img src="{{movie.image}}" alt="{{movie.title}}">
+                </div>
+                <div class="hover-text">
+                  <div class="heading">{{movie.title}}</div>
+                  <div class="description">{{movie.description}}</div>
+                 <div class="rating">Rating : {{movie.rating}}</div>
+                  <a href="{% url 'movie_detail' movie.id %}">Know More</a>
+                  <a href="{% url 'add' movie.id %}">Add to Watchlist</a>
+              </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="tranding">
+        <div class="container1">
+          <h1 class="text-center section-heading">Science Fiction</h1>
+        </div>
+        <div class="container">
+          <div class="swiper tranding-slider">
+            <div class="swiper-wrapper">
+                {% for movie in Science_Fiction%}
+              <div class="swiper-slide tranding-slide">
+                <div class="tranding-slide-img">
+                  <img src="{{movie.image}}" alt="{{movie.title}}">
+                </div>
+                <div class="hover-text">
+                  <div class="heading">{{movie.title}}</div>
+                  <div class="description">{{movie.description}}</div>
+                 <div class="rating">Rating : {{movie.rating}}</div>
+                  <a href="{% url 'movie_detail' movie.id %}">Know More</a>
+                  <a href="{% url 'add' movie.id %}">Add to Watchlist</a>
+              </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="tranding">
+        <div class="container1">
+          <h1 class="text-center section-heading">Drama</h1>
+        </div>
+        <div class="container">
+          <div class="swiper tranding-slider">
+            <div class="swiper-wrapper">
+                {% for movie in drama%}
+              <div class="swiper-slide tranding-slide">
+                <div class="tranding-slide-img">
+                  <img src="{{movie.image}}" alt="{{movie.title}}">
+                </div>
+                <div class="hover-text">
+                  <div class="heading">{{movie.title}}</div>
+                  <div class="description">{{movie.description}}</div>
+                 <div class="rating">Rating : {{movie.rating}}</div>
+                  <a href="{% url 'movie_detail' movie.id %}">Know More</a>
+                  <a href="{% url 'add' movie.id %}">Add to Watchlist</a>
+              </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </section>
+<br><br>
+<footer class="bg-gray-900 text-gray-300 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+        <!-- Logo and Description -->
+        <div class="mb-6 md:mb-0">
+            <h3 class="text-2xl font-bold text-white mb-2">Rp2 Movies</h3>
+            <p>Your ultimate destination for discovering and enjoying the best movies from around the world.</p>
+        </div>
+        <!-- Links -->
+        <div class="flex space-x-6 mb-6 md:mb-0">
+            <a href="#" class="hover:text-white">Home</a>
+            <a href="#" class="hover:text-white">About</a>
+            <a href="#" class="hover:text-white">Privacy Policy</a>
+        </div>
+        <!-- Social Media Icons -->
+        <div class="flex space-x-6">
+            <a href="#" class="text-gray-400 hover:text-white">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.733 0-1.325.592-1.325 1.325v21.351c0 .732.592 1.324 1.325 1.324h11.495v-9.284h-3.12v-3.622h3.12v-2.675c0-3.092 1.894-4.778 4.66-4.778 1.325 0 2.464.099 2.794.143v3.239l-1.918.001c-1.504 0-1.795.714-1.795 1.763v2.308h3.59l-.467 3.622h-3.123v9.284h6.124c.733 0 1.324-.592 1.324-1.324v-21.351c0-.733-.591-1.325-1.324-1.325z"/></svg>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M11.997 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.688 9.888c-.202-.362-.424-.685-.672-.97-.257-.295-.584-.534-.965-.716-.38-.181-.812-.273-1.296-.273-.645 0-1.204.159-1.678.478-.474.318-.849.728-1.122 1.23-.273.503-.41 1.078-.41 1.725s.137 1.222.41 1.725c.273.503.648.912 1.122 1.23.474.319 1.033.478 1.678.478.66 0 1.208-.159 1.645-.478.437-.319.772-.731 1.005-1.237.233-.506.35-1.079.35-1.718 0-.41-.042-.813-.124-1.206zM18.753 8.294c-.084.294-.202.574-.355.839-.153.265-.33.498-.53.7-.2.202-.437.372-.712.51-.276.138-.591.206-.946.206-.446 0-.855-.069-1.227-.206-.372-.138-.693-.331-.963-.58a2.6 2.6 0 0 1-.675-.967c-.163-.398-.245-.853-.245-1.366 0-.614.105-1.168.315-1.66.21-.491.502-.913.878-1.266.377-.353.824-.62 1.342-.801.518-.18 1.075-.271 1.67-.271.698 0 1.332.128 1.901.385.569.257 1.048.595 1.438 1.016.39.421.69.922.9 1.502.21.579.315 1.214.315 1.901 0 .614-.084 1.187-.253 1.718-.169.532-.416.998-.74 1.4-.323.402-.721.722-1.194.961z"/></svg>
+            </a>
+        </div>
+    </div>
+</footer>
+      
     <!-- JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.1.6/swiper-bundle.min.js"></script>
     <script>
@@ -246,6 +582,20 @@
                 },
             });
         });
+
+        var TrandingSlider = new Swiper('.tranding-slider', {
+            effect: 'coverflow',
+            grabCursor: true,
+            centeredSlides: true,
+            loop: true,
+            slidesPerView: 'auto',
+            coverflowEffect: {
+              rotate: 0,
+              stretch: 0,
+              depth: 100,
+              modifier: 3.5,
+            }
+          });
     </script>
 </body>
 </html>

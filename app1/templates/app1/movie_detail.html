@@ -38,6 +38,7 @@
         }
         .movie-poster {
             width: 100%;
+            border-radius: 12px;
             height: auto;
         }
         .movie-content {
@@ -80,10 +81,23 @@
         .btn:hover {
             background-color: #d40813;
         }
+        @media (max-width: 375px) {
+            .card-container{
+                margin-top: 12%;
+                padding-top: 185px;
+                border-radius: 12px;
+            }
+        }
         /* Responsive Design */
         @media (max-width: 768px) {
+            .card-container{
+                margin-top:200px;
+            }
             .movie-card {
                 grid-template-columns: 1fr;
+            }
+            img{
+                max-width: auto;
             }
             .movie-content {
                 padding: 1.5rem;
