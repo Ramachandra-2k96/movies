@@ -180,17 +180,17 @@
             <nav class="nav">
                 <div class="nav-toggle">&#9776;</div>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Movies</a></li>
-                    <li><a href="#">Genres</a></li>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#movies">Movies</a></li>
                     <li><a href="#">My List</a></li>
-                    <li><a href="#">Profile</a></li>
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                    <li><a href="{% url 'logout'%}">Logout</a></li>
                 </ul>
             </nav>
         </div>
     </header>
     <!-- Slider Section -->
-    <section>
+    <section id="home">
         <div class="hcontainer swiper-container">
             <div class="swiper-wrapper">
                 {% for movie in movies %}
@@ -208,7 +208,9 @@
             <div class="swiper-pagination"></div>
         </div>
     </section>
+<section id="movies">
 
+</section>
     <!-- JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.1.6/swiper-bundle.min.js"></script>
     <script>

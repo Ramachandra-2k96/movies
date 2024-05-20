@@ -21,8 +21,11 @@ def land(request):
     random_movies=Movies.objects.filter(gener__icontains="Action").order_by('?')[:15]
     return render(request, 'app1/index.html',{'search_results': list(random_movies.values('id','title', 'image', 'date', 'gener', 'rating', 'description'))})
 def home(request):
-    random_movies=Movies.objects.filter(gener__icontains="Action").order_by('?')[:15]
-    return render(request, 'app1/home.html',{'movies': list(random_movies.values('id','title', 'image', 'date', 'gener', 'rating', 'description'))})
+    if isinstance(request.user, AnonymousUser):
+        return redirect('login')
+    else:
+        random_movies=Movies.objects.filter(gener__icontains="Action").order_by('?')[:15]
+        return render(request, 'app1/home.html',{'movies': list(random_movies.values('id','title', 'image', 'date', 'gener', 'rating', 'description'))})
 
 def login_view(request):
 	if request.method == 'POST':
@@ -40,7 +43,7 @@ def login_view(request):
 		else:
 			if sin.is_valid():
 				sin.save()
-				user = authenticate(username=sin.cleaned_data['username'], password=sin.cleaned_data['password'])
+				user = authenticate(username=sin.cleaned_data['username'], password=sin.cleaned_data['password1'])
 				login(request, user)
 				return redirect('home')
 			else:
@@ -49,6 +52,11 @@ def login_view(request):
 		log = CustomAuthenticationForm()
 		sin = CustomUserCreationForm()
 		return render(request, 'app1/form.html', {'form1': log,"form2":sin})
+
+
+def profile(request):
+    user=request.user
+    return render(request,"app1/profile.html",{"user":user})
 
 def logout_view(request):
 	logout(request)
@@ -101,6 +109,7 @@ def upload_file(request):
     else:
         form = UploadFileForm()
     return render(request, 'app1/upload.html', {'form': form})
+
 
 def movie_detail(request,movie_id):
     if isinstance(request.user, AnonymousUser):
