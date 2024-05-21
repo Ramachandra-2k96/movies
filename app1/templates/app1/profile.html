@@ -3,11 +3,306 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>User Profile - Movie Browsing</title>
+    <style>
+        /* CSS Variables */
+:root {
+    --primary-color: #007BFF;
+    --primary-hover-color: #0056b3;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --light-text-color: #666;
+    --white: #fff;
+    --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --background-color: #181818;
+    --text-color: #f4f4f4;
+    --light-text-color: #aaa;
+    --white: #333;
+    --box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+/* Reset and Basic Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Profile Page Layout */
+.profile-page {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+/* Header Section */
+.profile-header {
+    position: relative;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.cover-photo img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    filter: brightness(70%);
+    transition: filter 0.3s;
+}
+
+.profile-picture {
+    position: absolute;
+    top: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid var(--white);
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-info {
+    margin-top: 80px;
+    text-align: center;
+}
+
+.profile-info h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.profile-info p {
+    margin-bottom: 0.5rem;
+}
+
+.bio {
+    font-style: italic;
+    color: var(--light-text-color);
+}
+
+.edit-profile-btn {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-profile-btn:hover {
+    background-color: var(--primary-hover-color);
+}
+
+/* Navigation */
+.profile-nav {
+    background-color: var(--white);
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 2rem;
+    transition: background-color 0.3s;
+}
+
+.profile-nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+.profile-nav ul li {
+    margin: 0 1rem;
+}
+
+.profile-nav ul li a {
+    padding: 1rem;
+    display: block;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.profile-nav ul li a:hover,
+.profile-nav ul li.active a {
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* Profile Sections */
+.profile-section {
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+    margin-bottom: 2rem;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.profile-section h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+/* About Section */
+.personal-info p {
+    margin-bottom: 1rem;
+}
+
+/* Movies Grid */
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.movie-card {
+    background-color: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.movie-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.movie-title {
+    padding: 0.5rem;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+/* Settings Section */
+.settings-options p {
+    margin-bottom: 1rem;
+}
+
+.settings-options a {
+    color: var(--primary-color);
+}
+
+.settings-options a:hover {
+    text-decoration: underline;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .profile-page {
+        width: 95%;
+    }
+
+    .cover-photo img {
+        height: 150px;
+    }
+
+    .profile-picture {
+        width: 120px;
+        height: 120px;
+    }
+
+    .profile-info h1 {
+        font-size: 2rem;
+    }
+}
+
+    </style>
 </head>
 <body>
-    <p>
-        {{user.username}}
-    </p>
+    <div class="profile-page">
+        <header class="profile-header">
+            <div class="cover-photo">
+                <img src="https://th.bing.com/th/id/OIP.TJ5gLE6Wd3_EI6RW4pRObQHaFj?w=198&h=148&c=7&r=0&o=5&pid=1.7" alt="Cover Photo">
+            </div>
+            <div class="profile-picture">
+                <img src="https://th.bing.com/th/id/OIP.2Ck8oZdAS5V4v-VR5gno-AHaH6?w=177&h=189&c=7&r=0&o=5&pid=1.7" alt="Profile Picture">
+            </div>
+            <div class="profile-info">
+                <h1>John Doe</h1>
+                <p>@johndoe</p>
+                <p class="bio">Avid movie watcher and critic. Love exploring different genres and sharing reviews.</p>
+                <button class="edit-profile-btn">Edit Profile</button>
+            </div>
+        </header>
+
+        <nav class="profile-nav">
+            <ul>
+                <li class="active"><a href="#about">About</a></li>
+                <li><a href="#movies">Favorite Movies</a></li>
+                <li><a href="#settings">Settings</a></li>
+            </ul>
+        </nav>
+
+        <section id="about" class="profile-section">
+            <h2>About</h2>
+            <div class="personal-info">
+                <p><strong>Email:</strong> johndoe@example.com</p>
+                <p><strong>Location:</strong> New York, USA</p>
+                <p><strong>Joined:</strong> January 2023</p>
+            </div>
+        </section>
+
+        <section id="movies" class="profile-section">
+            <h2>Favorite Movies</h2>
+            <div class="movies-grid">
+                <div class="movie-card">
+                    <img src="movie1.jpg" alt="Movie 1">
+                    <p class="movie-title">Inception</p>
+                </div>
+                <div class="movie-card">
+                    <img src="movie2.jpg" alt="Movie 2">
+                    <p class="movie-title">The Dark Knight</p>
+                </div>
+                <div class="movie-card">
+                    <img src="movie3.jpg" alt="Movie 3">
+                    <p class="movie-title">Interstellar</p>
+                </div>
+                <!-- Add more movie cards as needed -->
+            </div>
+        </section>
+
+        <section id="settings" class="profile-section">
+            <h2>Settings</h2>
+            <div class="settings-options">
+                <p><a href="#">Change Password</a></p>
+                <p><a href="#">Privacy Settings</a></p>
+                <p><a href="#">Notification Preferences</a></p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Toggle Dark Mode
+        const toggleDarkMode = () => {
+            document.body.classList.toggle('dark-mode');
+        }
+    </script>
 </body>
 </html>

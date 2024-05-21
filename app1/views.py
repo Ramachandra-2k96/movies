@@ -11,6 +11,8 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.auth.models import AnonymousUser
+from django.db.models import Q
+
 
 def land(request):
     random_movies=Movies.objects.filter(gener__icontains="Action").order_by('?')[:15]
@@ -79,17 +81,32 @@ def logout_view(request):
 	logout(request)
 	return redirect('login')
 
-def search_items(request):
+def search_movies(request):
     query = request.GET.get('query', '')
-    items = Movies.objects.filter(title__istartswith=query)[:25]
-    return JsonResponse(list(items.values('id','title', 'image', 'date', 'gener', 'rating', 'description')), safe=False)
+    genre = request.GET.get('genre', '')
+    year = request.GET.get('year', '')
+    rating = request.GET.get('rating', '')
+    # Create a Q object for dynamic filtering
+    filters = Q()
+    if query:
+        filters &= Q(title__istartswith=query)
+    if genre:
+        filters &= Q(gener__icontains=genre)
+    if year:
+        filters &= Q(date__year=year)
+    if rating:
+        filters &= Q(rating__gte=rating)
+
+    # Apply the filters to the Movies model
+    movies = Movies.objects.filter(filters)[:100]
+    return JsonResponse(list(movies.values('id','title', 'image', 'date', 'gener', 'rating', 'description')), safe=False)
 
 
 def add(request,movie_id):
     return HttpResponse("<h1>Development in progress, please come again after some time</h1>")
 
 def search(request):
-    return HttpResponse("<h1>Development in progress, please come again after some time</h1>")
+    return render(request,'app1/search.html')
 
 def movie_detail(request,movie_id):
     if isinstance(request.user, AnonymousUser):
