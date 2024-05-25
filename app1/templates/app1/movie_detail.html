@@ -111,6 +111,8 @@
             }
         }
     </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 <body>
     <div class="card-container">
@@ -125,20 +127,39 @@
                     <p><strong>Rating:</strong> {{movie.rating}}</p>
                 </div>
                 <button class="btn" onclick="playTrailer()">Watch Trailer</button>
-                <button class="btn" onclick="addToList()">Add to List</button>
+                <button class="btn"> <a  onclick="addToFavorites('{{ movie.id }}')">Add to List</a></button>
             </div>
         </div>
     </div>
 
     <script>
+        function addToFavorites(movieId) {
+            $.ajax({
+                type: "POST",
+                url: `/app1/add/${movieId}/`,  // Update the URL according to your Django URL configuration
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Ensure to include the CSRF token
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status) {
+                        alert('Movie added to favorites successfully!');
+                        // Optionally, you can perform additional actions like updating UI
+                    } else {
+                        alert('Movie is already in favorites.');
+                        // Optionally, you can handle this case differently
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error occurred while adding movie to favorites:', error);
+                    alert('Error occurred while adding movie to favorites. Please try again later.');
+                    // Optionally, you can handle this case differently
+                }
+            });
+        }
         function playTrailer() {
             alert("Playing trailer...");
             // Implement trailer playing logic here
-        }
-
-        function addToList() {
-            alert("Added to your list!");
-            // Implement add to list logic here
         }
     </script>
 </body>

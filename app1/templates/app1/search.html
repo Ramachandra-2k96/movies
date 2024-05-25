@@ -222,7 +222,30 @@
         document.getElementById('year').addEventListener('input',fetchMovies);
         document.getElementById('rating').addEventListener('input',fetchMovies);
         
-        
+        function addToFavorites(movieId) {
+            $.ajax({
+                type: "POST",
+                url: `/app1/add/${movieId}/`,  // Update the URL according to your Django URL configuration
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Ensure to include the CSRF token
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status) {
+                        alert('Movie added to favorites successfully!');
+                        // Optionally, you can perform additional actions like updating UI
+                    } else {
+                        alert('Movie is already in favorites.');
+                        // Optionally, you can handle this case differently
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error occurred while adding movie to favorites:', error);
+                    alert('Error occurred while adding movie to favorites. Please try again later.');
+                    // Optionally, you can handle this case differently
+                }
+            });
+        }
         function fetchMovies() {
             var genre = document.getElementById('genre').value;
             var year = document.getElementById('year').value;
@@ -251,7 +274,7 @@
                                     <p>Year: ${item.date}</p>
                                     <p>Rating: ${item.rating}</p>`+
                                     `<div class="flex space-x-4">
-                                        <a href="movie_detail/${item.id}" class="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 relative group">
+                                        <a  onclick="addToFavorites(${item.id})" class="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 relative group">
                                             <i class="fas fa-bookmark mr-2"></i> 
                                             <span class="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                                                 Save

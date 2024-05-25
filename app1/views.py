@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from .forms import UploadFileForm,CustomAuthenticationForm,CustomUserCreationForm
 import pandas as pd
-from .models import Movies
+from .models import Favorites, Movies
 import os
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -75,7 +75,8 @@ def home(request):
 
 def profile(request):
     user=request.user
-    return render(request,"app1/profile.html",{"user":user})
+    favorites=Favorites.objects.filter(user=user)
+    return render(request,"app1/profile.html",{"user":user,"fav":favorites})
 
 def logout_view(request):
 	logout(request)
@@ -101,9 +102,12 @@ def search_movies(request):
     movies = Movies.objects.filter(filters)[:100]
     return JsonResponse(list(movies.values('id','title', 'image', 'date', 'gener', 'rating', 'description')), safe=False)
 
+from django.shortcuts import get_object_or_404
 
-def add(request,movie_id):
-    return HttpResponse("<h1>Development in progress, please come again after some time</h1>")
+def add(request, movie_id):
+    movie = get_object_or_404(Movies, pk=movie_id)
+    added = Favorites.add_to_favorites(request.user, movie)
+    return JsonResponse({'status': added})
 
 def search(request):
     return render(request,'app1/search.html')
@@ -116,6 +120,7 @@ def movie_detail(request,movie_id):
         movie=Movies.objects.get(id=movie_id)
         formatted_date = movie.date.strftime("%Y-%B-%d")
         mov={
+            'id':movie.id,
             'title':movie.title,
             'image':movie.image,
             'date':formatted_date,
@@ -123,7 +128,6 @@ def movie_detail(request,movie_id):
             'rating':movie.rating,
             'description':movie.description
         }
-        print(formatted_date)
         return render(request,'app1/movie_detail.html',{'movie':mov})
 
 def upload_file(request):

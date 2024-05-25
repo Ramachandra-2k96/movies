@@ -367,7 +367,7 @@
                 <ul>
                     <li><a href="#home">Home</a></li>
                     <li><a href="#movies">Movies</a></li>
-                    <li><a href="#">My List</a></li>
+                    <li><a href="{% url 'profile' %}#fav">My List</a></li>
                     <li><a href="{% url 'profile' %}">Profile</a></li>
                     <li><a href="{% url 'logout'%}">Logout</a></li>
                 </ul>
@@ -411,8 +411,8 @@
                   <div class="description">{{movie.description}}</div>
                  <div class="rating">Rating : {{movie.rating}}</div>
                   <a href="{% url 'movie_detail' movie.id %}">Know More</a>
-                  <a href="{% url 'add' movie.id %}">Add to Watchlist</a>
-              </div>
+                  <a onclick="addToFavorites('{{ movie.id }}')">Add to Watchlist</a>
+                </div>
               </div>
               {% endfor %}
             </div>
@@ -437,8 +437,8 @@
                   <div class="description">{{movie.description}}</div>
                  <div class="rating">Rating : {{movie.rating}}</div>
                   <a href="{% url 'movie_detail' movie.id %}">Know More</a>
-                  <a href="{% url 'add' movie.id %}">Add to Watchlist</a>
-              </div>
+                  <a onclick="addToFavorites('{{ movie.id }}')">Add to Watchlist</a>
+                </div>
               </div>
               {% endfor %}
             </div>
@@ -463,8 +463,8 @@
                   <div class="description">{{movie.description}}</div>
                  <div class="rating">Rating : {{movie.rating}}</div>
                   <a href="{% url 'movie_detail' movie.id %}">Know More</a>
-                  <a href="{% url 'add' movie.id %}">Add to Watchlist</a>
-              </div>
+                  <a onclick="addToFavorites('{{ movie.id }}')">Add to Watchlist</a>
+                </div>
               </div>
               {% endfor %}
             </div>
@@ -488,8 +488,8 @@
                   <div class="description">{{movie.description}}</div>
                  <div class="rating">Rating : {{movie.rating}}</div>
                   <a href="{% url 'movie_detail' movie.id %}">Know More</a>
-                  <a href="{% url 'add' movie.id %}">Add to Watchlist</a>
-              </div>
+                  <a onclick="addToFavorites('{{ movie.id }}')">Add to Watchlist</a>
+                </div>
               </div>
               {% endfor %}
             </div>
@@ -513,7 +513,7 @@
                   <div class="description">{{movie.description}}</div>
                  <div class="rating">Rating : {{movie.rating}}</div>
                   <a href="{% url 'movie_detail' movie.id %}">Know More</a>
-                  <a href="{% url 'add' movie.id %}">Add to Watchlist</a>
+                  <a onclick="addToFavorites('{{ movie.id }}')">Add to Watchlist</a>
               </div>
               </div>
               {% endfor %}
@@ -597,6 +597,32 @@
               modifier: 3.5,
             }
           });
+          function addToFavorites(movieId) {
+            $.ajax({
+                type: "POST",
+                url: `/app1/add/${movieId}/`,  // Update the URL according to your Django URL configuration
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Ensure to include the CSRF token
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status) {
+                        alert('Movie added to favorites successfully!');
+                        // Optionally, you can perform additional actions like updating UI
+                    } else {
+                        alert('Movie is already in favorites.');
+                        // Optionally, you can handle this case differently
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error occurred while adding movie to favorites:', error);
+                    alert('Error occurred while adding movie to favorites. Please try again later.');
+                    // Optionally, you can handle this case differently
+                }
+            });
+        }
+        
+        
     </script>
 </body>
 </html>
