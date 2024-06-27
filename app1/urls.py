@@ -1,6 +1,6 @@
 # urls.py
 from django.urls import path
-from .views import search_movies,land,login_view,logout_view,home,movie_detail,profile,add,search#,upload_file
+from .views import search_movies,land,login_view,logout_view,home,movie_detail,profile,add,search
 
 urlpatterns = [
     #path('upload/', upload_file, name='upload_file'),
