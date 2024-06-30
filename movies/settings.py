@@ -99,6 +99,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+SESSION_COOKIE_SECURE = True  
+CSRF_COOKIE_SECURE = True  
 
 
 # Internationalization
